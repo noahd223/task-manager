@@ -2,21 +2,17 @@ import React, { useState, useRef, useEffect } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Animated, Platform } from 'react-native';
 
 // Types
-/**
- * Props for the TaskInput component
- */
+// Props for the TaskInput component
 interface TaskInputProps {
-  /** Callback function when a new task is added */
+  // Callback function when a new task is added
   onAddTask: (text: string) => void;
-  /** Whether the input should be disabled */
+  // Whether the input should be disabled
   disabled?: boolean;
 }
 
 // Component
-/**
- * TaskInput Component
- * Provides an input field for adding new tasks with animations and validation
- */
+// TaskInput Component
+// Provides an input field for adding new tasks with animations and validation
 export const TaskInput: React.FC<TaskInputProps> = ({ onAddTask, disabled = false }) => {
   // State
   const [text, setText] = useState('');
@@ -27,9 +23,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({ onAddTask, disabled = fals
   const inputRef = useRef<TextInput>(null);
 
   // Handlers
-  /**
-   * Handles the press in animation for the add button
-   */
+  // Handles the press in animation for the add button
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
       toValue: 0.95,
@@ -39,9 +33,7 @@ export const TaskInput: React.FC<TaskInputProps> = ({ onAddTask, disabled = fals
     }).start();
   };
 
-  /**
-   * Handles the press out animation for the add button
-   */
+  // Handles the press out animation for the add button
   const handlePressOut = () => {
     Animated.spring(scaleAnim, {
       toValue: 1,
@@ -51,10 +43,8 @@ export const TaskInput: React.FC<TaskInputProps> = ({ onAddTask, disabled = fals
     }).start();
   };
 
-  /**
-   * Handles adding a new task
-   * Validates input and clears the field after adding
-   */
+  // Handles adding a new task
+  // Validates input and clears the field after adding
   const handleAddTask = () => {
     const trimmedText = text.trim();
     if (trimmedText && !disabled) {
@@ -64,10 +54,8 @@ export const TaskInput: React.FC<TaskInputProps> = ({ onAddTask, disabled = fals
     }
   };
 
-  /**
-   * Handles the submit event of the text input
-   * Triggers task addition when the return key is pressed
-   */
+  // Handles the submit event of the text input
+  // Triggers task addition when the return key is pressed
   const handleSubmit = () => {
     handleAddTask();
   };

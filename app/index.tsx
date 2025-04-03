@@ -36,6 +36,7 @@ const FilterButton: React.FC<{
   onPress: () => void;
 }> = ({ label, isActive, onPress }) => (
   <TouchableOpacity 
+    // Apply active styles when the filter is selected
     style={[styles.filterButton, isActive && styles.filterButtonActive]}
     onPress={onPress}
   >

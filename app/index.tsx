@@ -1,23 +1,19 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, Animated, SafeAreaView, TouchableOpacity } from 'react-native';
-import Task from '../components/Task';
-import TaskInput from '../components/TaskInput';
 import { Stack } from 'expo-router';
+import { Task } from '../components/Task';
+import TaskInput from '../components/TaskInput';
 import { useTasks } from '../hooks/useTasks';
 
-// Type definition for task filter options
+// Types
 type FilterType = 'all' | 'active' | 'completed';
 
+// Components
 /**
  * Progress Bar Component
  * Displays an animated progress bar based on task completion
- * 
- * @component
- * @param {Object} props - Component props
- * @param {Animated.Value} props.progress - Animated value for progress bar width
  */
 const ProgressBar: React.FC<{ progress: Animated.Value }> = ({ progress }) => {
-  // Interpolate progress value to width percentage
   const progressWidth = progress.interpolate({
     inputRange: [0, 1],
     outputRange: ['0%', '100%'],
@@ -25,12 +21,7 @@ const ProgressBar: React.FC<{ progress: Animated.Value }> = ({ progress }) => {
 
   return (
     <View style={styles.progressBar}>
-      <Animated.View 
-        style={[
-          styles.progressFill,
-          { width: progressWidth }
-        ]} 
-      />
+      <Animated.View style={[styles.progressFill, { width: progressWidth }]} />
     </View>
   );
 };
@@ -38,12 +29,6 @@ const ProgressBar: React.FC<{ progress: Animated.Value }> = ({ progress }) => {
 /**
  * Filter Button Component
  * Renders a button for filtering tasks
- * 
- * @component
- * @param {Object} props - Component props
- * @param {string} props.label - Button text
- * @param {boolean} props.isActive - Whether the filter is currently active
- * @param {() => void} props.onPress - Callback function for button press
  */
 const FilterButton: React.FC<{
   label: string;
@@ -60,21 +45,20 @@ const FilterButton: React.FC<{
   </TouchableOpacity>
 );
 
+// Main App Component
 /**
- * Main App Component
- * Manages the task management application interface
- * Includes progress tracking, task filtering, and task list display
- * 
- * @component
+ * Task Manager App
+ * Manages tasks with filtering, progress tracking, and animations
  */
 export default function App() {
-  // State for current filter selection
+  // State
   const [filter, setFilter] = useState<FilterType>('all');
   
-  // Custom hook for task management functionality
+  // Custom hook for task management
   const {
     tasks,
     progress,
+    deletingTaskId,
     addTask,
     toggleTask,
     deleteTask,
@@ -82,22 +66,18 @@ export default function App() {
     getCompletedCount,
   } = useTasks();
 
-  // Get filtered tasks based on current filter
+  // Derived state
   const filteredTasks = filterTasks(filter);
-
-  // Get count of completed tasks
   const completedTasks = getCompletedCount();
 
+  // Render
   return (
     <>
-      {/* Hide default header */}
       <Stack.Screen options={{ headerShown: false }} />
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
-          {/* Application Title */}
           <Text style={styles.title}>Task Manager</Text>
           
-          {/* Progress Tracking Section */}
           <View style={styles.progressContainer}>
             <ProgressBar progress={progress} />
             <Text style={styles.progressText}>
@@ -107,10 +87,8 @@ export default function App() {
             </Text>
           </View>
           
-          {/* Task Input Section */}
           <TaskInput onAddTask={addTask} />
           
-          {/* Task Filter Controls */}
           <View style={styles.filterContainer}>
             <FilterButton
               label="All"
@@ -129,16 +107,18 @@ export default function App() {
             />
           </View>
           
-          {/* Scrollable Task List */}
-          <ScrollView style={styles.taskList}>
+          <ScrollView 
+            style={styles.taskList}
+            contentContainerStyle={styles.taskListContent}
+            showsVerticalScrollIndicator={false}
+          >
             {filteredTasks.map((task) => (
               <Task
                 key={task.id}
-                id={task.id}
-                text={task.text}
-                completed={task.completed}
+                {...task}
                 onToggle={toggleTask}
                 onDelete={deleteTask}
+                isDeleting={task.id === deletingTaskId}
               />
             ))}
           </ScrollView>
@@ -148,12 +128,8 @@ export default function App() {
   );
 }
 
-/**
- * Styles for the App component and its subcomponents
- * Uses StyleSheet for optimized styling
- */
+// Styles
 const styles = StyleSheet.create({
-  // Main container styles
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
@@ -162,7 +138,6 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 20,
   },
-  // Title styles
   title: {
     fontSize: 24,
     fontWeight: 'bold',
@@ -170,7 +145,6 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginBottom: 15,
   },
-  // Progress section styles
   progressContainer: {
     paddingHorizontal: 20,
     marginBottom: 20,
@@ -182,10 +156,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 8,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
@@ -201,7 +172,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: '500',
   },
-  // Filter section styles
   filterContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -215,10 +185,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     backgroundColor: '#fff',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.1,
     shadowRadius: 2,
     elevation: 2,
@@ -234,9 +201,11 @@ const styles = StyleSheet.create({
   filterTextActive: {
     color: '#fff',
   },
-  // Task list styles
   taskList: {
     flex: 1,
+  },
+  taskListContent: {
     paddingHorizontal: 15,
+    paddingBottom: 20,
   },
 }); 

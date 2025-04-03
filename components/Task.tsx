@@ -1,20 +1,46 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Animated, Platform } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Platform, Easing } from 'react-native';
 
+// Types
+/**
+ * Props for the Task component
+ */
 interface TaskProps {
+  /** Unique identifier for the task */
   id: string;
+  /** The text content of the task */
   text: string;
+  /** Whether the task is completed */
   completed: boolean;
+  /** Callback function when task is toggled */
   onToggle: (id: string) => void;
+  /** Callback function when task is deleted */
   onDelete: (id: string) => void;
+  /** Whether the task is being deleted */
+  isDeleting?: boolean;
 }
 
-const Task: React.FC<TaskProps> = ({ id, text, completed, onToggle, onDelete }) => {
-  // Animation value for task press feedback
-  const [scale] = React.useState(new Animated.Value(1));
+// Component
+/**
+ * Task Component
+ * Displays a single task with completion toggle and delete functionality
+ * Includes animations for press feedback and deletion
+ */
+export const Task: React.FC<TaskProps> = ({
+  id,
+  text,
+  completed,
+  onToggle,
+  onDelete,
+  isDeleting = false,
+}) => {
+  // Animation refs
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+  const opacityAnim = useRef(new Animated.Value(1)).current;
 
+  // Handlers
   const handlePressIn = () => {
-    Animated.spring(scale, {
+    Animated.spring(scaleAnim, {
       toValue: 0.95,
       useNativeDriver: true,
       tension: 40,
@@ -23,7 +49,7 @@ const Task: React.FC<TaskProps> = ({ id, text, completed, onToggle, onDelete }) 
   };
 
   const handlePressOut = () => {
-    Animated.spring(scale, {
+    Animated.spring(scaleAnim, {
       toValue: 1,
       useNativeDriver: true,
       tension: 40,
@@ -31,24 +57,47 @@ const Task: React.FC<TaskProps> = ({ id, text, completed, onToggle, onDelete }) 
     }).start();
   };
 
+  // Deletion animation effect
+  useEffect(() => {
+    if (isDeleting) {
+      Animated.timing(opacityAnim, {
+        toValue: 0,
+        duration: 300,
+        easing: Easing.out(Easing.ease),
+        useNativeDriver: true,
+      }).start(() => {
+        onDelete(id);
+      });
+    }
+  }, [isDeleting, id, onDelete]);
+
+  // Render
   return (
-    <Animated.View style={[styles.taskContainer, { transform: [{ scale }] }]}>
+    <Animated.View
+      style={[
+        styles.container,
+        {
+          transform: [{ scale: scaleAnim }],
+          opacity: opacityAnim,
+        },
+      ]}
+    >
       <TouchableOpacity
-        style={[styles.checkbox, completed && styles.checked]}
-        onPress={() => onToggle(id)}
+        style={styles.content}
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}
+        onPress={() => onToggle(id)}
       >
-        {completed && <Text style={styles.checkmark}>✓</Text>}
+        <View style={[styles.checkbox, completed && styles.checkboxChecked]}>
+          {completed && <Text style={styles.checkmark}>✓</Text>}
+        </View>
+        <Text style={[styles.text, completed && styles.textCompleted]}>
+          {text}
+        </Text>
       </TouchableOpacity>
-      <Text style={[styles.taskText, completed && styles.completedTask]}>
-        {text}
-      </Text>
       <TouchableOpacity
         style={styles.deleteButton}
         onPress={() => onDelete(id)}
-        onPressIn={handlePressIn}
-        onPressOut={handlePressOut}
       >
         <Text style={styles.deleteText}>×</Text>
       </TouchableOpacity>
@@ -56,36 +105,38 @@ const Task: React.FC<TaskProps> = ({ id, text, completed, onToggle, onDelete }) 
   );
 };
 
+// Styles
 const styles = StyleSheet.create({
-  taskContainer: {
+  container: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 15,
     backgroundColor: '#fff',
-    borderRadius: 12,
-    marginVertical: 6,
+    padding: 15,
+    borderRadius: 10,
+    marginVertical: 8,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
-    minHeight: 60, // Ensure minimum height for consistent layout
+    minHeight: 60,
+  },
+  content: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   checkbox: {
     width: 24,
     height: 24,
     borderRadius: 12,
     borderWidth: 2,
-    borderColor: '#007AFF',
+    borderColor: '#ddd',
     marginRight: 15,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
   },
-  checked: {
+  checkboxChecked: {
     backgroundColor: '#4CAF50',
     borderColor: '#4CAF50',
   },
@@ -94,13 +145,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  taskText: {
-    flex: 1,
+  text: {
     fontSize: 16,
     color: '#333',
-    marginRight: 10, // Add space between text and delete button
+    flex: 1,
   },
-  completedTask: {
+  textCompleted: {
     textDecorationLine: 'line-through',
     color: '#999',
   },
@@ -110,22 +160,15 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#fff',
+    marginLeft: 10,
     ...Platform.select({
-      ios: {
-        marginTop: -2, // Slight adjustment for iOS to center the X
-      },
-      android: {
-        marginTop: 0,
-      },
+      ios: { marginTop: -5 },
+      android: { marginTop: 0 },
     }),
   },
   deleteText: {
-    color: '#FF3B30',
     fontSize: 28,
-    fontWeight: 'bold',
-    lineHeight: 28, // Match font size to ensure vertical centering
+    color: '#f44336',
+    lineHeight: 28,
   },
-});
-
-export default Task; 
+}); 

@@ -1,26 +1,55 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Color constants for the application
+ * Provides a consistent color palette across the app
  */
-
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
-
 export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+  /**
+   * Primary color used for main actions and branding
+   */
+  primary: '#4CAF50',
+  /**
+   * Secondary color used for supporting elements
+   */
+  secondary: '#2196F3',
+  /**
+   * Background colors
+   */
+  background: {
+    primary: '#FFFFFF',
+    secondary: '#F5F5F5',
+    tertiary: '#E0E0E0',
   },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+  /**
+   * Text colors
+   */
+  text: {
+    primary: '#333333',
+    secondary: '#666666',
+    light: '#999999',
   },
-};
+  /**
+   * Status colors
+   */
+  status: {
+    success: '#4CAF50',
+    error: '#F44336',
+    warning: '#FFC107',
+    info: '#2196F3',
+  },
+  /**
+   * Border colors
+   */
+  border: {
+    light: '#E0E0E0',
+    medium: '#BDBDBD',
+    dark: '#9E9E9E',
+  },
+  /**
+   * Shadow colors
+   */
+  shadow: {
+    light: 'rgba(0, 0, 0, 0.1)',
+    medium: 'rgba(0, 0, 0, 0.2)',
+    dark: 'rgba(0, 0, 0, 0.3)',
+  },
+}; 

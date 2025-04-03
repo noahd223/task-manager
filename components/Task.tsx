@@ -6,17 +6,17 @@ import { View, Text, TouchableOpacity, StyleSheet, Animated, Platform, Easing } 
  * Props for the Task component
  */
 interface TaskProps {
-  /** Unique identifier for the task */
+  // Unique identifier for the task
   id: string;
-  /** The text content of the task */
+  // The text content of the task
   text: string;
-  /** Whether the task is completed */
+  // Whether the task is completed
   completed: boolean;
-  /** Callback function when task is toggled */
+  // Callback function when task is toggled between completed and active
   onToggle: (id: string) => void;
-  /** Callback function when task is deleted */
+  // Callback function when task is deleted
   onDelete: (id: string) => void;
-  /** Whether the task is being deleted */
+  // Whether the task is being deleted (for animation)
   isDeleting?: boolean;
 }
 
@@ -41,10 +41,10 @@ export const Task: React.FC<TaskProps> = ({
   // Handlers
   const handlePressIn = () => {
     Animated.spring(scaleAnim, {
-      toValue: 0.95,
+      toValue: 0.85,
       useNativeDriver: true,
       tension: 40,
-      friction: 3,
+      friction: 2,
     }).start();
   };
 
@@ -53,7 +53,7 @@ export const Task: React.FC<TaskProps> = ({
       toValue: 1,
       useNativeDriver: true,
       tension: 40,
-      friction: 3,
+      friction: 2,
     }).start();
   };
 

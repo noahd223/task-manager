@@ -1,50 +1,82 @@
-# Welcome to your Expo app 👋
+# Task Manager App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern, animated task management application built with React Native and Expo. This app helps you organize your tasks with a beautiful, intuitive interface and smooth animations.
 
-## Get started
+## Features
 
-1. Install dependencies
+- ✨ Create, complete, and delete tasks with smooth animations
+- 🎨 Modern, clean UI with custom animations
+- 🔍 Filter tasks by status (All, Active, Completed)
+- 📱 Responsive design that works on both iOS and Android
+- 🎯 Interactive task items with spring animations
+- 💫 Smooth transitions and visual feedback
 
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+- Node.js (v14 or higher)
+- npm or yarn
+- Expo CLI (`npm install -g expo-cli`)
+- Expo Go app on your mobile device (iOS or Android)
+
+## Setup Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone [your-repository-url]
+   cd task-manager
+   ```
+
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-2. Start the app
-
+3. Start the development server:
    ```bash
-    npx expo start
+   npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+4. Run the app:
+   - Install the Expo Go app on your mobile device from the App Store (iOS) or Play Store (Android)
+   - Open the Expo Go app on your device
+   - Scan the QR code that appears in your terminal with:
+     - iOS: Use your device's camera
+     - Android: Use the Expo Go app's QR scanner
+   - The app will load on your device
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+If the project doesn't start on the app, you can also launch it on the web using the link from the terminal output 
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Usage
 
-## Get a fresh project
+- **Adding Tasks**: Use the input field at the top of the screen to add new tasks
+- **Completing Tasks**: Tap on a task to mark it as complete/incomplete
+- **Deleting Tasks**: Tap the × button on any task to delete it
+- **Filtering Tasks**: Use the filter buttons to view All, Active, or Completed tasks
 
-When you're ready, run:
+## Third-Party Libraries
 
-```bash
-npm run reset-project
-```
+This project uses several third-party libraries to enhance functionality:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- **expo-router**: For file-based routing and navigation
+- **react-native-reanimated**: For smooth, native-driven animations
+- **react-native-gesture-handler**: For handling touch interactions and gestures
+- **expo-haptics**: For providing haptic feedback on interactions
+- **@expo/vector-icons**: For beautiful, consistent icons
 
-## Learn more
 
-To learn more about developing your project with Expo, look at the following resources:
+## Development
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+The project structure is organized as follows:
+- `/app`: Main application screens and routing
+- `/components`: Reusable UI components
+- `/hooks`: Custom React hooks for state management
+- `/constants`: App-wide constants and configuration
 
-## Join the community
+## Contributing
 
-Join our community of developers creating universal apps.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.

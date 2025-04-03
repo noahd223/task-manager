@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, StyleSheet, Animated, Platform } from 'react-native';
+import { View, TextInput, TouchableOpacity, StyleSheet, Animated } from 'react-native';
 
 // Types
 // Props for the TaskInput component
@@ -114,6 +114,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: 20,
+    paddingHorizontal: 20,
   },
   input: {
     flex: 1,
@@ -128,10 +129,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
     elevation: 3,
+    marginRight: 10,
   },
   inputFocused: {
     borderWidth: 2,
-    borderColor: '#4CAF50',
+    borderColor: '#007AFF',
   },
   inputDisabled: {
     backgroundColor: '#f5f5f5',
@@ -141,10 +143,9 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: 25,
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#007AFF',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,

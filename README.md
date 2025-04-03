@@ -38,12 +38,10 @@ Before you begin, ensure you have the following installed:
 4. Run the app:
    - Install the Expo Go app on your mobile device from the App Store (iOS) or Play Store (Android)
    - Open the Expo Go app on your device
-   - Scan the QR code that appears in your terminal with:
-     - iOS: Use your device's camera
-     - Android: Use the Expo Go app's QR scanner
+   - Scan the QR code that appears in your terminal with your camera
    - The app will load on your device
 
-If the project doesn't start on the app, you can also launch it on the web using the link from the terminal output 
+If the project doesn't start on the app, you can also launch it on the web using the link from the terminal output.
 
 ## Usage
 

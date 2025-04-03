@@ -5,12 +5,22 @@ import { Task } from '../components/Task';
 import { TaskInput } from '../components/TaskInput';
 import { useTasks } from '../hooks/useTasks';
 
-// Types
+/**
+ * Type definition for task filtering options
+ */
 type FilterType = 'all' | 'active' | 'completed';
 
 /**
- * Filter Button Component
- * Renders a button for filtering tasks
+ * FilterButton Component
+ * 
+ * A reusable button component for filtering tasks by their completion status.
+ * Provides visual feedback for the active filter state.
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {string} props.label - Text to display on the button
+ * @param {boolean} props.isActive - Whether this filter is currently selected
+ * @param {Function} props.onPress - Callback function when button is pressed
  */
 const FilterButton: React.FC<{
   label: string;
@@ -18,7 +28,6 @@ const FilterButton: React.FC<{
   onPress: () => void;
 }> = ({ label, isActive, onPress }) => (
   <TouchableOpacity 
-    // Apply active styles when the filter is selected
     style={[styles.filterButton, isActive && styles.filterButtonActive]}
     onPress={onPress}
   >
@@ -28,13 +37,12 @@ const FilterButton: React.FC<{
   </TouchableOpacity>
 );
 
-// Main App Component
 /**
  * Task Manager App
  * Manages tasks with filtering and animations
  */
 export default function App() {
-  // State
+  // State for current filter selection
   const [filter, setFilter] = useState<FilterType>('all');
   
   // Custom hook for task management
@@ -47,19 +55,21 @@ export default function App() {
     filterTasks,
   } = useTasks();
 
-  // Derived state
+  // Derived state: filtered tasks based on current filter
   const filteredTasks = filterTasks(filter);
 
-  // Render
   return (
     <>
       <Stack.Screen options={{ headerShown: false }} />
       <SafeAreaView style={styles.container}>
         <View style={styles.content}>
+          {/* App Title */}
           <Text style={styles.title}>Task Manager</Text>
           
+          {/* Task Input Component */}
           <TaskInput onAddTask={addTask} />
           
+          {/* Filter Buttons */}
           <View style={styles.filterContainer}>
             <FilterButton
               label="All"
@@ -78,6 +88,7 @@ export default function App() {
             />
           </View>
           
+          {/* Scrollable Task List */}
           <ScrollView 
             style={styles.taskList}
             contentContainerStyle={styles.taskListContent}
@@ -99,7 +110,6 @@ export default function App() {
   );
 }
 
-// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -12,8 +12,8 @@ An animated simple task management application built with React Native and Expo.
 
 ## Prerequisites
 
-Before you begin, ensure you have the following installed:
-- Node.js (v14 or higher)
+Ensure you have the following installed:
+- Node.js
 - npm or yarn
 - Expo Go app on your mobile device (iOS or Android)
 
@@ -41,7 +41,7 @@ Before you begin, ensure you have the following installed:
    - Scan the QR code that appears in your terminal with your camera
    - The app will load on your device
 
-If the project doesn't start on the app, you can also launch it on the web using the link from the terminal output.
+If the project doesn't start on the app, you can also launch it on the web using the link from the terminal output (should be a localhost link).
 
 ## Usage
 
